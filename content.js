@@ -1,7 +1,7 @@
 const query = qry => document.body.querySelector(qry)
 var preservedState = null
 
-//function que pega algo dentro dentro do html.
+//function that pastes something inside the html.
 function pegaString(str, first_character, last_character) {
   if(str.match(first_character + "(.*)" + last_character) == null){
     return null;
@@ -11,14 +11,14 @@ function pegaString(str, first_character, last_character) {
   }
 }
 
-//function para remover elementos da página
+//function to remove elements from the page
 function remove(element, name, untilRemoved = false, callback = () => {}) {
   let tries = 0;
   if (untilRemoved) {
     const finishRemove = setInterval(() => {
       if (query(element) != null) {
         clearInterval(finishRemove)
-        console.log(`[CR Premium] Removendo ${name}...`);
+        console.log(`[CR Premium] Removing ${name}...`);
         const closeBtn = query(element + ' > .close-button')
         if (closeBtn) closeBtn.click()
         else query(element).style.display = 'none';
@@ -29,29 +29,29 @@ function remove(element, name, untilRemoved = false, callback = () => {}) {
       else tries++
     }, 20)
   } else if (query(element) != null) {
-    console.log(`[CR Premium] Removendo ${name}...`);
+    console.log(`[CR Premium] Removing ${name}...`);
     query(element).style.display = 'none';
   }
 }
 
-//function que mudar o player para um mais simples.
+//function that change the player to a simpler one.
 function importPlayer(){
     var HTML = document.documentElement.innerHTML;
-    console.log("[CR Old] Removendo player da Crunchyroll...");
+    console.log("[CR Old] Removing player from Crunchyroll...");
     var elem = document.getElementById('showmedia_video_player');
     elem.parentNode.removeChild(elem);
 
-    console.log("[CR Old] Pegando dados da stream...");
+    console.log("[CR Old] Getting data from the stream...");
     var video_config_media = JSON.parse(pegaString(HTML, "vilos.config.media = ", ";"));
 
-    //Remove Nota do topo sobre experimentar o premium
-    //Remove avisos q o video nn pode ser visto
-    //Remove sugestão de inscrever-se para o trial gratuito
+    //Remove Top Note about trying premium
+    //Remove warnings that the video cannot be seen
+    //Remove suggestion to sign up for the free trial
     remove(".freetrial-note", "Free Trial Note")
     remove(".showmedia-trailer-notice", "Trailer Notice")
     remove("#showmedia_free_trial_signup", "Free Trial Signup")
 
-    // Simular interação do usuário para deixar em fullscreen automaticamente
+    // Simulate user interaction to make it fullscreen automatically
     var element = document.getElementById("template_scroller");
     if (element) element.click();
     
@@ -70,7 +70,7 @@ function importPlayer(){
     addPlayer(appendTo, message)
 }
 
-//renderiza player na versão beta
+//render player in beta version
 function importBetaPlayer(ready = false) {
     var videoPlayer = query('.video-player');
     if (!ready) {
@@ -78,12 +78,12 @@ function importBetaPlayer(ready = false) {
       return;
     }
 
-    console.log("[CR Beta] Removendo player da Crunchyroll...");
+    console.log("[CR Beta] Removing player from Crunchyroll...");
     remove('.video-player-placeholder', 'Video Placeholder')
     const appendTo = videoPlayer.parentNode;
     appendTo.removeChild(videoPlayer);
 
-    console.log("[CR Beta] Pegando dados da stream...");
+    console.log("[CR Beta] Getting data from the stream...");
     var external_lang = preservedState.localization.locale.toLowerCase()
     var ep_lang = preservedState.localization.locale.replace('-', '')
     var ep_id = preservedState.watch.id
@@ -102,13 +102,13 @@ function importBetaPlayer(ready = false) {
       'up_next': up_next ? up_next.href : undefined,
     }
 
-    console.log("[CR Beta] Adicionando o jwplayer...");
-    console.log("[CR Beta] Antiga URL:", old_url);
+    console.log("[CR Beta] Adding jwplayer...");
+    console.log("[CR Beta] Old URL:", old_url);
     addPlayer(appendTo, message, true)
 }
 
 function addPlayer(element, playerInfo, beta = false) {
-    console.log("[CR Premium] Adicionando o jwplayer...");
+    console.log("[CR Premium] Adding jwplayer...");
     var ifrm = document.createElement("iframe");
     ifrm.setAttribute("id", "frame"); 
     ifrm.setAttribute("src", "https://mateus7g.github.io/crp-iframe-player/"); 
@@ -133,7 +133,7 @@ function addPlayer(element, playerInfo, beta = false) {
     });
 }
 
-//function ao carregar pagina.
+//function when loading page.
 function onloadfunction() {
   var HTML = document.documentElement.innerHTML;
   if(pegaString(HTML, "vilos.config.media = ", ";") != null){
@@ -145,7 +145,7 @@ function onloadfunction() {
   }
 }
 
-// function pra atualizar pagina quando mudar de episodio pela UI beta
+// function to refresh page when changing episode by UI beta
 var isLoaded = false
 
 function registerChangeEpisode() {
