@@ -1,6 +1,6 @@
 var HTML = document.documentElement.innerHTML;
 
-//function que pega algo dentro dentro do html.
+//function that pastes something inside the html.
 function pegaString(str, first_character, last_character) {
 	if(str.match(first_character + "(.*)" + last_character) == null){
 		return null;
@@ -9,16 +9,16 @@ function pegaString(str, first_character, last_character) {
 	    return(new_str)
     }
 }
-//function que mudar o player para um mais simples.
+//function that change the player to a simpler one.
 function importPlayer(){
-		console.log("[CR Premium] Removendo player da Crunchyroll...");
+		console.log("[CR Premium] Removing player from Crunchyroll...");
 		var elem = document.getElementById('showmedia_video_player');
     	elem.parentNode.removeChild(elem);
 
-		console.log("[CR Premium] Pegando dados da stream...");
+		console.log("[CR Premium] Getting data from the stream...");
 		var video_config_media = JSON.parse(pegaString(HTML, "vilos.config.media = ", ";"));
 
-    	console.log("[CR Premium] Adicionando o jwplayer...");
+    	console.log("[CR Premium] Adding jwplayer...");
     	ifrm = document.createElement("iframe");
     	ifrm.setAttribute("id", "frame"); 
 		ifrm.setAttribute("src", "https://luiz-lp.github.io/crpiframeplayer/"); 
@@ -35,21 +35,21 @@ function importPlayer(){
 			document.body.querySelector("#showmedia_video_box_wide").appendChild(ifrm);
 		}
 
-		//Remove Nota do topo sobre experimentar o premium
+		//Remove Top Note about Trying Premium
 		if (document.body.querySelector(".freetrial-note") != null) {
-			console.log("[CR Premium] Removendo Free Trial Note...");
+			console.log("[CR Premium] Removing Free Trial Note...");
 			document.body.querySelector(".freetrial-note").style.display = "none";
 		}
 
-		//Remove avisos q o video nn pode ser visto
+		//Remove warnings that the video cannot be viewed
 		if(document.body.querySelector(".showmedia-trailer-notice") != null){
-			console.log("[CR Premium] Removendo Trailer Notice...");
+			console.log("[CR Premium] Removing Trailer Notice...");
 			document.body.querySelector(".showmedia-trailer-notice").style.display = "none";
 		}
 
-		//Remove sugestão de inscrever-se para o trial gratuito
+		//Remove suggestion to sign up for free trial
 		if(document.body.querySelector("#showmedia_free_trial_signup") != null){
-			console.log("[CR Premium] Removendo Free Trial Signup...");
+			console.log("[CR Premium] Removing Free Trial Signup...");
 			document.body.querySelector("#showmedia_free_trial_signup").style.display = "none";
 		}
 		
@@ -63,7 +63,7 @@ function importPlayer(){
 
 		//console.log(video_config_media);
 }
-//function ao carregar pagina.
+//function when loading page.
 function onloadfunction() {
 	if(pegaString(HTML, "vilos.config.media = ", ";") != null){
 		importPlayer();
